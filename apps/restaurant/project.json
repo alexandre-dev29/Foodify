@@ -1,0 +1,53 @@
+{
+  "root": "apps/restaurant",
+  "sourceRoot": "apps/restaurant/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/restaurant",
+        "main": "apps/restaurant/src/main.ts",
+        "tsConfig": "apps/restaurant/tsconfig.app.json",
+        "assets": ["apps/restaurant/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/restaurant/src/environments/environment.ts",
+              "with": "apps/restaurant/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "restaurant:build",
+        "inspect": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/restaurant/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/restaurant"],
+      "options": {
+        "jestConfig": "apps/restaurant/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

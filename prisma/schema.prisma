@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId           String       @id @default(cuid())
+  phoneNumber      String       @unique
+  isPhoneConfirmed Boolean      @default(false)
+  username         String       @unique
+  password         String
+  completeName     String?
+  Role             Role         @relation(fields: [userRoleId], references: [roleId])
+  Token            Tokens[]
+  UserAddress      UserAddress? @relation(fields: [userAddressId], references: [addressId])
+  userRoleId       String
+  userAddressId    String?
+  createdAt        DateTime?
+  updatedAt        DateTime?
+
+}
+
+model Tokens {
+  tokenId   String    @id @default(cuid())
+  token     String    @db.LongText
+  userId    String
+  User      User      @relation(fields: [userId], references: [userId])
+  createdAt DateTime?
+  updatedAt DateTime?
+}
+
+model Role {
+  roleId    String    @id @default(cuid())
+  userRole  String
+  User      User[]
+  createdAt DateTime?
+  updatedAt DateTime?
+}
+
+model UserAddress {
+  addressId String  @id @default(cuid())
+  commune   String?
+  address   String  @db.LongText
+  longitude String
+  latitude  String
+  userId    String
+  User      User[]
+}
+
+// creating the database structure for the restaurant service part
+
+model Restaurant {
+  restauId          String         @id @default(cuid())
+  restauName        String
+  restauDescription String         @db.LongText
+  phoneNumber       String?
+  email             String?
+  RestauAddress     RestauAddress? @relation(fields: [restauAddressId], references: [addressId])
+  RestauImages      RestauImages?  @relation(fields: [mainImageId], references: [imageId])
+  RestaurantUser    RestauUser[]
+  restauAddressId   String?
+  mainImageId       String?
+  isActive          Boolean        @default(false)
+  createdAt         DateTime?      @default(now())
+  updatedAt         DateTime?      @default(now())
+}
+
+model RestauTokens {
+  tokenId      String      @id @default(cuid())
+  token        String      @db.LongText
+  RestauUser   RestauUser? @relation(fields: [restauUserId], references: [restauUserId])
+  restauUserId String
+  createdAt    DateTime?   @default(now())
+  updatedAt    DateTime?   @default(now())
+}
+
+model RestauUser {
+  restauUserId String         @id @default(cuid())
+  Token        RestauTokens[]
+  restauId     String
+  userName     String
+  phoneNumber  String
+  completeName String
+  userImage    String
+  password     String
+  role         RestauRole     @default(AGENT)
+  RestauImages RestauImages?  @relation(fields: [userImage], references: [imageId])
+  Restaurant   Restaurant?    @relation(fields: [restauId], references: [restauId])
+  createdAt    DateTime?      @default(now())
+  updatedAt    DateTime?      @default(now())
+}
+
+model RestauAddress {
+  addressId  String       @id @default(cuid())
+  commune    String?
+  address    String       @db.LongText
+  longitude  String
+  latitude   String
+  restauId   String
+  Restaurant Restaurant[]
+  createdAt  DateTime?    @default(now())
+  updatedAt  DateTime?    @default(now())
+}
+
+model RestauImages {
+  imageId    String       @id @default(cuid())
+  address    String       @db.LongText
+  publicUrl  String       @db.LongText
+  imageUrl   String       @db.LongText
+  restauId   String?
+  Restaurant Restaurant[]
+  RestauUser RestauUser[]
+  createdAt  DateTime?    @default(now())
+  updatedAt  DateTime?    @default(now())
+}
+
+enum RestauRole {
+  ADMIN
+  AGENT
+}

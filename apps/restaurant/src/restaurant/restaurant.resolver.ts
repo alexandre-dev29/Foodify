@@ -12,12 +12,16 @@ import { CreateRestaurantInput } from './dto/create-restaurant.input';
 import { UpdateRestauAddressInput } from '../restau-address/dto/update-restau-address.input';
 import { RestauAddress } from '../restau-address/entities/restau-address.entity';
 import { RestauAddressService } from '../restau-address/restau-address.service';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
+import { createWriteStream } from 'fs';
+import { FirebaseService } from '@food-delivery/shared-types';
 
 @Resolver(() => Restaurant)
 export class RestaurantResolver {
   constructor(
     private readonly restaurantService: RestaurantService,
-    private readonly restauAddressService: RestauAddressService
+    private readonly restauAddressService: RestauAddressService,
+    private firebaseService: FirebaseService
   ) {}
 
   @Mutation(() => Restaurant)
@@ -29,8 +33,7 @@ export class RestaurantResolver {
 
   @Query(() => [Restaurant], { name: 'getAllRestaurants' })
   getAllRestaurants() {
-    const gettingAll = this.restaurantService.findAll();
-    return gettingAll;
+    return this.restaurantService.findAll();
   }
 
   @Query(() => Restaurant, { name: 'getOneRestaurant' })
@@ -58,5 +61,29 @@ export class RestaurantResolver {
       restaurantId,
       addressInformations
     );
+  }
+
+  @Mutation(() => Boolean)
+  async uploadFile(
+    @Args({ name: 'file', type: () => GraphQLUpload })
+    { filename, createReadStream, mimetype }: FileUpload
+  ): Promise<boolean | any> {
+    const fileNameNew = this.generateNewFileName(filename);
+    await new Promise((resolve, reject) => {
+      createReadStream()
+        .pipe(createWriteStream(`./uploads/${fileNameNew}`))
+        .on('finish', () => resolve(true))
+        .on('error', (error) => {
+          console.log(error);
+          reject(false);
+        });
+    });
+    return await this.firebaseService.uploadProfilePhoto(
+      `./uploads/${fileNameNew}`
+    );
+  }
+
+  generateNewFileName(fileName: string): string {
+    return `${Date.now()}.${fileName.substring(fileName.length - 3)}`;
   }
 }

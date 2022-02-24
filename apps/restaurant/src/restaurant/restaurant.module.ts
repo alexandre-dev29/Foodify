@@ -3,7 +3,12 @@ import { RestaurantService } from './restaurant.service';
 import { RestaurantResolver } from './restaurant.resolver';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { LoginResponse, PrismaService } from '@food-delivery/shared-types';
+import {
+  FirebaseService,
+  LoginResponse,
+  PrismaService,
+  ResponseAction,
+} from '@food-delivery/shared-types';
 import { RestauAddressService } from '../restau-address/restau-address.service';
 
 @Module({
@@ -23,6 +28,8 @@ import { RestauAddressService } from '../restau-address/restau-address.service';
     LoginResponse,
     PrismaService,
     RestauAddressService,
+    ResponseAction,
+    FirebaseService,
   ],
 })
 export class RestaurantModule {}

@@ -1,7 +1,38 @@
 import { Scalar } from '@nestjs/graphql';
+import { GraphQLUpload } from 'graphql-upload';
 
 export function sharedTypes(): string {
   return 'SharedTypes';
+}
+
+@Scalar('Upload')
+export class Upload {
+  description = 'Upload custom scalar type';
+
+  parseValue(value) {
+    return GraphQLUpload.parseValue(value);
+  }
+
+  serialize(value: any) {
+    return GraphQLUpload.serialize(value);
+  }
+
+  parseLiteral(ast) {
+    return GraphQLUpload.parseLiteral(ast, ast.value);
+  }
+}
+
+@Scalar('ResponseAction')
+export class ResponseAction {
+  description? = 'Response action result';
+  message: string;
+  status: ResponseType;
+  data: any;
+}
+
+export enum ResponseType {
+  error,
+  success,
 }
 
 @Scalar('LoginResponse')

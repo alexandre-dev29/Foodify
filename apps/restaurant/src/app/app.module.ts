@@ -11,6 +11,7 @@ import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
+import { Upload } from '@food-delivery/shared-types';
 
 @Module({
   imports: [
@@ -29,6 +30,6 @@ import {
     RestauAddressModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, Upload],
 })
 export class AppModule {}

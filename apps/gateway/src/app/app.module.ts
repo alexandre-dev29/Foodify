@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { IntrospectAndCompose } from '@apollo/gateway';
+import FileUploadDataSource from '@profusion/apollo-federation-upload';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { IntrospectAndCompose } from '@apollo/gateway';
       driver: ApolloGatewayDriver,
       server: { cors: true },
       gateway: {
+        buildService: ({ url }) => new FileUploadDataSource({ url }),
         pollIntervalInMs: 5000,
         supergraphSdl: new IntrospectAndCompose({
           subgraphs: [

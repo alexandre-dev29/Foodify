@@ -2,30 +2,28 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
-import {
-  MercuriusGatewayDriver,
-  MercuriusGatewayDriverConfig,
-} from '@nestjs/mercurius';
+import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
+import { IntrospectAndCompose } from '@apollo/gateway';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<MercuriusGatewayDriverConfig>({
-      driver: MercuriusGatewayDriver,
-      cache: 10,
+    GraphQLModule.forRoot<ApolloGatewayDriverConfig>({
+      driver: ApolloGatewayDriver,
+      server: { cors: true },
       gateway: {
-        services: [
-          {
-            name: 'users',
-            url: 'http://localhost:3001/graphql',
-            mandatory: true,
-          },
-          {
-            name: 'restaurants',
-            url: 'http://localhost:3002/graphql',
-            mandatory: true,
-          },
-        ],
-        pollingInterval: 5000,
+        pollIntervalInMs: 5000,
+        supergraphSdl: new IntrospectAndCompose({
+          subgraphs: [
+            {
+              name: 'users',
+              url: 'http://localhost:3002/graphql',
+            },
+            {
+              name: 'restaurants',
+              url: 'http://localhost:3001/graphql',
+            },
+          ],
+        }),
       },
     }),
   ],

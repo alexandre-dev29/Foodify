@@ -6,18 +6,17 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AddressModule } from '../address/address.module';
 import { GraphQLModule } from '@nestjs/graphql';
-import {
-  MercuriusFederationDriver,
-  MercuriusFederationDriverConfig,
-} from '@nestjs/mercurius';
 import { UserRoleModule } from '../user-role/user-role.module';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<MercuriusFederationDriverConfig>({
-      driver: MercuriusFederationDriver,
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
       autoSchemaFile: true,
-      federationMetadata: true,
     }),
     UserModule,
     AddressModule,

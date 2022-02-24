@@ -1,4 +1,4 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateRestaurantInput {
@@ -6,14 +6,8 @@ export class CreateRestaurantInput {
   restauName: string;
 
   @Field(() => String)
-  username: string;
-
-  @Field(() => String)
   restauDescription: string;
 
   @Field(() => String, { nullable: true })
   phoneNumber: string;
-
-  @Field(() => String)
-  password: string;
 }

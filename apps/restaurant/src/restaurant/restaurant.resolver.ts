@@ -29,7 +29,8 @@ export class RestaurantResolver {
 
   @Query(() => [Restaurant], { name: 'getAllRestaurants' })
   getAllRestaurants() {
-    return this.restaurantService.findAll();
+    const gettingAll = this.restaurantService.findAll();
+    return gettingAll;
   }
 
   @Query(() => Restaurant, { name: 'getOneRestaurant' })
@@ -42,9 +43,9 @@ export class RestaurantResolver {
     return this.restaurantService.delete(id);
   }
 
-  @ResolveField('address', () => RestauAddress)
-  async role(@Parent() restaurant: Restaurant): Promise<RestauAddress> {
-    return this.restauAddressService.findById(restaurant.restauAddressId);
+  @ResolveField('address', () => RestauAddress, { nullable: true })
+  async address(@Parent() restaurant: Restaurant): Promise<RestauAddress> {
+    return this.restauAddressService.findByRestaurantId(restaurant.restauId);
   }
 
   @Mutation(() => Restaurant)

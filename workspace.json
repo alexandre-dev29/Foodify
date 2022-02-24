@@ -2,7 +2,6 @@
   "version": 2,
   "projects": {
     "gateway": "apps/gateway",
-    "plain-gateway": "apps/plain-gateway",
     "restaurant": "apps/restaurant",
     "shared-types": "libs/shared-types",
     "user-service": "apps/user-service"

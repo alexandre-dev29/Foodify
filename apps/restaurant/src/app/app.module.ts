@@ -8,16 +8,15 @@ import { RestaurantModule } from '../restaurant/restaurant.module';
 import { RestauAddressModule } from '../restau-address/restau-address.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
-  MercuriusFederationDriver,
-  MercuriusFederationDriverConfig,
-} from '@nestjs/mercurius';
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<MercuriusFederationDriverConfig>({
-      driver: MercuriusFederationDriver,
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
       autoSchemaFile: true,
-      federationMetadata: true,
     }),
     JwtModule.registerAsync({
       imports: [ConfigModule],

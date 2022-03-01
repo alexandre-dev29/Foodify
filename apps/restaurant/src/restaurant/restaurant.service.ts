@@ -1,15 +1,17 @@
-import { PrismaService, RepositoryData } from '@food-delivery/shared-types';
+import {
+  CreateRestaurantInput,
+  RepositoryData,
+  Restaurant,
+} from '@food-delivery/shared-types';
 import { Injectable } from '@nestjs/common';
-import { CreateRestaurantInput } from './dto/create-restaurant.input';
-import { Restaurant } from './entities/restaurant.entity';
-import { RestauAddressService } from '../restau-address/restau-address.service';
-import { UpdateRestauAddressInput } from '../restau-address/dto/update-restau-address.input';
+import { PrismaService } from '@food-delivery/utility';
+import { AddressService, UpdateAddressInput } from '@food-delivery/address';
 
 @Injectable()
 export class RestaurantService implements RepositoryData<Restaurant> {
   constructor(
     private prismaService: PrismaService,
-    private restauAddressService: RestauAddressService
+    private restauAddressService: AddressService
   ) {}
 
   findById(id: string): Promise<Restaurant> {
@@ -49,7 +51,7 @@ export class RestaurantService implements RepositoryData<Restaurant> {
 
   async updateAddressRestaurant(
     restaurantId: string,
-    { latitude, longitude, address, commune }: UpdateRestauAddressInput
+    { latitude, longitude, address, commune }: UpdateAddressInput
   ): Promise<Restaurant | any> {
     const currentRestaurant = await this.prismaService.restaurant.findUnique({
       where: { restauId: restaurantId },
@@ -73,6 +75,7 @@ export class RestaurantService implements RepositoryData<Restaurant> {
         longitude,
         latitude,
         restauId: currentRestaurant.restauId,
+        userId: null,
       });
 
       return this.prismaService.restaurant.update({

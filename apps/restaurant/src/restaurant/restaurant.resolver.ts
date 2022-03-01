@@ -7,20 +7,21 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { RestaurantService } from './restaurant.service';
-import { Restaurant } from './entities/restaurant.entity';
-import { CreateRestaurantInput } from './dto/create-restaurant.input';
-import { UpdateRestauAddressInput } from '../restau-address/dto/update-restau-address.input';
-import { RestauAddress } from '../restau-address/entities/restau-address.entity';
-import { RestauAddressService } from '../restau-address/restau-address.service';
+import { CreateRestaurantInput, Restaurant } from '@food-delivery/shared-types';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { createWriteStream } from 'fs';
-import { FirebaseService } from '@food-delivery/shared-types';
+import { FirebaseService } from '@food-delivery/utility';
+import {
+  Address,
+  AddressService,
+  UpdateAddressInput,
+} from '@food-delivery/address';
 
 @Resolver(() => Restaurant)
 export class RestaurantResolver {
   constructor(
     private readonly restaurantService: RestaurantService,
-    private readonly restauAddressService: RestauAddressService,
+    private readonly restauAddressService: AddressService,
     private firebaseService: FirebaseService
   ) {}
 
@@ -46,16 +47,16 @@ export class RestaurantResolver {
     return this.restaurantService.delete(id);
   }
 
-  @ResolveField('address', () => RestauAddress, { nullable: true })
-  async address(@Parent() restaurant: Restaurant): Promise<RestauAddress> {
+  @ResolveField('address', () => Address, { nullable: true })
+  async address(@Parent() restaurant: Restaurant): Promise<Address> {
     return this.restauAddressService.findByRestaurantId(restaurant.restauId);
   }
 
   @Mutation(() => Restaurant)
   updateRestaurantAddress(
     @Args('restaurantId', { type: () => String }) restaurantId: string,
-    @Args('addressInfo', { type: () => UpdateRestauAddressInput })
-    addressInformations: UpdateRestauAddressInput
+    @Args('addressInfo', { type: () => UpdateAddressInput })
+    addressInformations: UpdateAddressInput
   ): Promise<Restaurant> {
     return this.restaurantService.updateAddressRestaurant(
       restaurantId,

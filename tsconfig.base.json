@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@food-delivery/address": ["libs/address/src/index.ts"],
       "@food-delivery/auth": ["libs/auth/src/index.ts"],
       "@food-delivery/shared-types": ["libs/shared-types/src/index.ts"],
       "@food-delivery/utility": ["libs/utility/src/index.ts"]

@@ -1,7 +1,7 @@
 import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class RestauAddress {
+export class Address {
   @Field(() => String, { description: 'This is the id of address' })
   addressId: string;
 
@@ -19,6 +19,9 @@ export class RestauAddress {
 
   @Field(() => String)
   restauId: string;
+
+  @Field(() => String)
+  userId: string;
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   createdAt: Date;

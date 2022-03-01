@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AddressService } from './address.service';
 import { AddressResolver } from './address.resolver';
 import { UserService } from '../user/user.service';
 import {
@@ -7,9 +6,10 @@ import {
   TwilioService,
   UtilityModule,
 } from '@food-delivery/utility';
+import { AddressModule, AddressService } from '@food-delivery/address';
 
 @Module({
-  imports: [UtilityModule],
+  imports: [UtilityModule, AddressModule],
   providers: [
     AddressResolver,
     AddressService,
@@ -18,4 +18,4 @@ import {
     TwilioService,
   ],
 })
-export class AddressModule {}
+export class UserAddressModule {}

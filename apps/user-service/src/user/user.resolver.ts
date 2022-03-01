@@ -8,10 +8,9 @@ import {
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from '@food-delivery/shared-types';
-import { AddressService } from '../address/address.service';
-import { Address } from '../address/entities/address.entity';
 import { UserRoleService } from '../user-role/user-role.service';
 import { UserRole } from '../user-role/entities/user-role.entity';
+import { Address, AddressService } from '@food-delivery/address';
 
 @Resolver(() => User)
 export class UserResolver {

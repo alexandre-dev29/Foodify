@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "address": "libs/address",
     "auth": "libs/auth",
     "gateway": "apps/gateway",
     "restaurant": "apps/restaurant",

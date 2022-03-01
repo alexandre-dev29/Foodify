@@ -7,11 +7,14 @@ import {
   Resolver,
   ResolveReference,
 } from '@nestjs/graphql';
-import { Address } from './entities/address.entity';
-import { AddressService } from './address.service';
-import { CreateAddressInput } from './dto/create-address.input';
+
 import { UserService } from '../user/user.service';
 import { User } from '@food-delivery/shared-types';
+import {
+  Address,
+  AddressService,
+  CreateAddressInput,
+} from '@food-delivery/address';
 
 @Resolver(() => Address)
 export class AddressResolver {
@@ -28,8 +31,10 @@ export class AddressResolver {
   }
 
   @Query(() => [Address])
-  getAllAddresses(): Promise<Address[]> {
-    return this.addressesService.findAll();
+  async getUserAddresses(): Promise<Address[]> {
+    return (await this.addressesService.findAll()).filter(
+      (a) => a.userId != null
+    );
   }
 
   @Mutation(() => Address)

@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TwilioSharedService } from './twilio-shared.service';
+import { FirebaseService } from './firebase.service';
 
-describe('TwilioSharedService', () => {
-  let service: TwilioSharedService;
+describe('FirebaseService', () => {
+  let service: FirebaseService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TwilioSharedService],
+      providers: [FirebaseService],
     }).compile();
 
-    service = module.get<TwilioSharedService>(TwilioSharedService);
+    service = module.get<FirebaseService>(FirebaseService);
   });
 
   it('should be defined', () => {

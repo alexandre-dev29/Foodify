@@ -3,7 +3,7 @@ import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class TwilioSharedService {
+export class TwilioService {
   constructor(
     @InjectTwilio() private twilioClient: TwilioClient,
     private configService: ConfigService

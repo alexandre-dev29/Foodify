@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import * as admin from 'firebase-admin';
 import { UploadResponse } from '@google-cloud/storage';
+import * as admin from 'firebase-admin';
 
 @Injectable()
 export class FirebaseService {

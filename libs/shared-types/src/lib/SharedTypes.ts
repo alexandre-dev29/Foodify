@@ -60,6 +60,11 @@ export enum RestaurantRole {
   AGENT,
 }
 
+export enum AuthOperationType {
+  RESTAURANT,
+  USER,
+}
+
 export interface RepositoryData<T> {
   findById(id: string): Promise<T>;
   findAll(): Promise<T[]>;

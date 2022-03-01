@@ -4,10 +4,11 @@ import { UserResolver } from './user.resolver';
 import { LoginResponse } from '@food-delivery/shared-types';
 import { AddressService } from '../address/address.service';
 import { UserRoleService } from '../user-role/user-role.service';
-import { PrismaService, TwilioService } from '@food-delivery/utility';
+import { PrismaService, UtilityModule } from '@food-delivery/utility';
+import { AuthModule } from '@food-delivery/auth';
 
 @Module({
-  imports: [],
+  imports: [UtilityModule, AuthModule],
   providers: [
     UserResolver,
     UserService,
@@ -15,7 +16,6 @@ import { PrismaService, TwilioService } from '@food-delivery/utility';
     LoginResponse,
     AddressService,
     UserRoleService,
-    TwilioService,
   ],
 })
 export class UserModule {}

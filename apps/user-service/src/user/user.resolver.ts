@@ -8,20 +8,25 @@ import {
   ResolveReference,
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { User } from './entities/user.entity';
-import { CreateUserInput } from './dto/create-user.input';
-import { LoginResponse } from '@food-delivery/shared-types';
+import {
+  AuthOperationType,
+  CreateUserInput,
+  LoginResponse,
+  User,
+} from '@food-delivery/shared-types';
 import { AddressService } from '../address/address.service';
 import { Address } from '../address/entities/address.entity';
 import { UserRoleService } from '../user-role/user-role.service';
 import { UserRole } from '../user-role/entities/user-role.entity';
+import { AuthService } from '@food-delivery/auth';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(
     private userService: UserService,
     private addressService: AddressService,
-    private userRoleService: UserRoleService
+    private userRoleService: UserRoleService,
+    private authService: AuthService
   ) {}
 
   @Query(() => User)
@@ -42,8 +47,11 @@ export class UserResolver {
     @Args('createUserInput')
     { userRole, username, password, phoneNumber }: CreateUserInput
   ): Promise<User> {
-    return this.userService
-      .save({ username, userRole, password, phoneNumber })
+    return this.authService
+      .registerUser(
+        { username, userRole, password, phoneNumber },
+        AuthOperationType.USER
+      )
       .then((user) => ({ ...user, password: '' }));
   }
 
@@ -53,7 +61,11 @@ export class UserResolver {
     @Args('password') password: string
     // @Context() context: any,
   ) {
-    return this.userService.loginUser(phoneNumber, password);
+    return this.authService.loginUser(
+      phoneNumber,
+      password,
+      AuthOperationType.USER
+    );
   }
 
   @Mutation(() => Boolean)
@@ -61,11 +73,11 @@ export class UserResolver {
     @Args('phoneNumber') phoneNumber: string,
     @Args('otpCode') otpCode: string
   ) {
-    return this.userService.confirmPhoneNumber(phoneNumber, otpCode);
+    return this.authService.confirmPhoneNumber(phoneNumber, otpCode);
   }
   @Mutation(() => Boolean)
   async AskingForOtpCode(@Args('phoneNumber') phoneNumber: string) {
-    return this.userService.askingForOtpCode(phoneNumber);
+    return this.authService.askingForOtpCode(phoneNumber);
   }
 
   @ResolveField('address', () => Address)

@@ -8,8 +8,8 @@ import {
 } from '@nestjs/graphql';
 import { UserRoleService } from './user-role.service';
 import { UserRole } from './entities/user-role.entity';
-import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
+import { User } from '@food-delivery/shared-types';
 
 @Resolver(() => UserRole)
 export class UserRoleResolver {

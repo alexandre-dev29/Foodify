@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService, RepositoryData } from '@food-delivery/shared-types';
+import { RepositoryData } from '@food-delivery/shared-types';
 import { UserRole } from './entities/user-role.entity';
 import { GraphQLError } from 'graphql';
 import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
+import { PrismaService } from '@food-delivery/utility';
 
 @Injectable()
 export class UserRoleService implements RepositoryData<UserRole> {

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService, RepositoryData } from '@food-delivery/shared-types';
+import { RepositoryData } from '@food-delivery/shared-types';
 import { Address } from './entities/address.entity';
 import { CreateAddressInput } from './dto/create-address.input';
+import { PrismaService } from '@food-delivery/utility';
 
 @Injectable()
 export class AddressService implements RepositoryData<Address> {

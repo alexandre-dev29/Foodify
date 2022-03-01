@@ -11,7 +11,7 @@ import { Address } from './entities/address.entity';
 import { AddressService } from './address.service';
 import { CreateAddressInput } from './dto/create-address.input';
 import { UserService } from '../user/user.service';
-import { User } from '../user/entities/user.entity';
+import { User } from '@food-delivery/shared-types';
 
 @Resolver(() => Address)
 export class AddressResolver {

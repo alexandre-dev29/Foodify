@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { AuthService } from './auth/auth.service';
+import { PrismaService, TwilioService } from '@food-delivery/utility';
 
 @Module({
   imports: [
@@ -14,7 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [AuthService, PrismaService, TwilioService],
   exports: [],
 })
 export class AuthModule {}

@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth/auth.service';
 import { PrismaService, TwilioService } from '@food-delivery/utility';
+import { AuthResolver } from './auth/auth.resolver';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { PrismaService, TwilioService } from '@food-delivery/utility';
     }),
   ],
   controllers: [],
-  providers: [AuthService, PrismaService, TwilioService],
+  providers: [AuthService, PrismaService, TwilioService, AuthResolver],
   exports: [],
 })
 export class AuthModule {}

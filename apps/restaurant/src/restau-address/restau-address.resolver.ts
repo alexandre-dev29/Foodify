@@ -1,45 +1,46 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { RestauAddressService } from './restau-address.service';
-import { RestauAddress } from './entities/restau-address.entity';
-import { CreateRestauAddressInput } from './dto/create-restau-address.input';
-import { UpdateRestauAddressInput } from './dto/update-restau-address.input';
+import {
+  Address,
+  AddressService,
+  CreateAddressInput,
+  UpdateAddressInput,
+} from '@food-delivery/address';
 
-@Resolver(() => RestauAddress)
+@Resolver(() => Address)
 export class RestauAddressResolver {
-  constructor(private readonly restauAddressService: RestauAddressService) {}
+  constructor(private readonly adressService: AddressService) {}
 
-  @Mutation(() => RestauAddress)
+  @Mutation(() => Address)
   createRestauAddress(
     @Args('createRestauAddressInput')
-    createRestauAddressInput: CreateRestauAddressInput
+    createRestauAddressInput: CreateAddressInput
   ) {
-    return this.restauAddressService.save(createRestauAddressInput);
+    return this.adressService.save(createRestauAddressInput);
   }
 
-  @Query(() => [RestauAddress], { name: 'restauAddresses' })
-  findAll() {
-    return this.restauAddressService.findAll();
-  }
-
-  @Query(() => RestauAddress, { name: 'restauAddress' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.restauAddressService.findById(id);
-  }
-
-  @Mutation(() => RestauAddress)
-  updateRestauAddress(
-    @Args('adresseId') addressId: string,
-    @Args('updateRestauAddressInput')
-    updateRestauAddressInput: UpdateRestauAddressInput
-  ) {
-    return this.restauAddressService.updateAdress(
-      addressId,
-      updateRestauAddressInput
+  @Query(() => [Address], { name: 'restauAddresses' })
+  async findAll() {
+    return (await this.adressService.findAll()).filter(
+      (a) => a.restauId != null
     );
   }
 
-  @Mutation(() => RestauAddress)
+  @Query(() => Address, { name: 'restauAddress' })
+  findOne(@Args('id', { type: () => String }) id: string) {
+    return this.adressService.findById(id);
+  }
+
+  @Mutation(() => Address)
+  updateRestauAddress(
+    @Args('adresseId') addressId: string,
+    @Args('updateRestauAddressInput')
+    updateRestauAddressInput: UpdateAddressInput
+  ) {
+    return this.adressService.updateAdress(addressId, updateRestauAddressInput);
+  }
+
+  @Mutation(() => Address)
   removeRestauAddress(@Args('id', { type: () => String }) id: string) {
-    return this.restauAddressService.delete(id);
+    return this.adressService.delete(id);
   }
 }

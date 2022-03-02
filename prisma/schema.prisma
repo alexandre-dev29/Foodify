@@ -11,15 +11,15 @@ datasource db {
 }
 
 model User {
-  userId           String       @id @default(cuid())
-  phoneNumber      String       @unique
-  isPhoneConfirmed Boolean      @default(false)
-  username         String       @unique
+  userId           String    @id @default(cuid())
+  phoneNumber      String    @unique
+  isPhoneConfirmed Boolean   @default(false)
+  username         String    @unique
   password         String
   completeName     String?
-  Role             Role         @relation(fields: [userRoleId], references: [roleId])
+  Role             Role      @relation(fields: [userRoleId], references: [roleId])
   Token            Tokens[]
-  UserAddress      UserAddress? @relation(fields: [userAddressId], references: [addressId])
+  UserAddress      Address?  @relation(fields: [userAddressId], references: [addressId])
   userRoleId       String
   userAddressId    String?
   createdAt        DateTime?
@@ -44,32 +44,36 @@ model Role {
   updatedAt DateTime?
 }
 
-model UserAddress {
-  addressId String  @id @default(cuid())
-  commune   String?
-  address   String  @db.LongText
-  longitude String
-  latitude  String
-  userId    String
-  User      User[]
+model Address {
+  addressId  String       @id @default(cuid())
+  commune    String?
+  address    String       @db.LongText
+  longitude  String
+  latitude   String
+  restauId   String?
+  userId     String?
+  User       User[]
+  Restaurant Restaurant[]
+  createdAt  DateTime?    @default(now())
+  updatedAt  DateTime?    @default(now())
 }
 
 // creating the database structure for the restaurant service part
 
 model Restaurant {
-  restauId          String         @id @default(cuid())
+  restauId          String        @id @default(cuid())
   restauName        String
-  restauDescription String         @db.LongText
+  restauDescription String        @db.LongText
   phoneNumber       String?
   email             String?
-  RestauAddress     RestauAddress? @relation(fields: [restauAddressId], references: [addressId])
-  RestauImages      RestauImages?  @relation(fields: [mainImageId], references: [imageId])
+  RestauAddress     Address?      @relation(fields: [restauAddressId], references: [addressId])
+  RestauImages      RestauImages? @relation(fields: [mainImageId], references: [imageId])
   RestaurantUser    RestauUser[]
   restauAddressId   String?
   mainImageId       String?
-  isActive          Boolean        @default(false)
-  createdAt         DateTime?      @default(now())
-  updatedAt         DateTime?      @default(now())
+  isActive          Boolean       @default(false)
+  createdAt         DateTime?     @default(now())
+  updatedAt         DateTime?     @default(now())
 }
 
 model RestauTokens {
@@ -95,18 +99,6 @@ model RestauUser {
   Restaurant   Restaurant?    @relation(fields: [restauId], references: [restauId])
   createdAt    DateTime?      @default(now())
   updatedAt    DateTime?      @default(now())
-}
-
-model RestauAddress {
-  addressId  String       @id @default(cuid())
-  commune    String?
-  address    String       @db.LongText
-  longitude  String
-  latitude   String
-  restauId   String
-  Restaurant Restaurant[]
-  createdAt  DateTime?    @default(now())
-  updatedAt  DateTime?    @default(now())
 }
 
 model RestauImages {

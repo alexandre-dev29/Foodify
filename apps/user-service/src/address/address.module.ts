@@ -1,30 +1,21 @@
 import { Module } from '@nestjs/common';
-import { AddressService } from './address.service';
 import { AddressResolver } from './address.resolver';
 import { UserService } from '../user/user.service';
 import {
   PrismaService,
-  TwilioSharedService,
-} from '@food-delivery/shared-types';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
+  TwilioService,
+  UtilityModule,
+} from '@food-delivery/utility';
+import { AddressModule, AddressService } from '@food-delivery/address';
 
 @Module({
-  imports: [
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get('SECRET_JWT_ACCESS_KEY'),
-      }),
-      inject: [ConfigService],
-    }),
-  ],
+  imports: [UtilityModule, AddressModule],
   providers: [
     AddressResolver,
     AddressService,
     UserService,
     PrismaService,
-    TwilioSharedService,
+    TwilioService,
   ],
 })
-export class AddressModule {}
+export class UserAddressModule {}

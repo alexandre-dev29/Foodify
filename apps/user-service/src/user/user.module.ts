@@ -5,7 +5,7 @@ import { LoginResponse } from '@food-delivery/shared-types';
 import { UserRoleService } from '../user-role/user-role.service';
 import { PrismaService, UtilityModule } from '@food-delivery/utility';
 import { AuthModule } from '@food-delivery/auth';
-import { AddressService } from '@food-delivery/address';
+import { GlobalAddressService } from '@food-delivery/address';
 
 @Module({
   imports: [UtilityModule, AuthModule],
@@ -14,7 +14,7 @@ import { AddressService } from '@food-delivery/address';
     UserService,
     PrismaService,
     LoginResponse,
-    AddressService,
+    GlobalAddressService,
     UserRoleService,
   ],
 })

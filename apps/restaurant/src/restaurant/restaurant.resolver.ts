@@ -13,7 +13,8 @@ import { createWriteStream } from 'fs';
 import { FirebaseService } from '@food-delivery/utility';
 import {
   Address,
-  AddressService,
+  AddressRecup,
+  GlobalAddressService,
   UpdateAddressInput,
 } from '@food-delivery/address';
 
@@ -21,7 +22,7 @@ import {
 export class RestaurantResolver {
   constructor(
     private readonly restaurantService: RestaurantService,
-    private readonly restauAddressService: AddressService,
+    private readonly restauAddressService: GlobalAddressService,
     private firebaseService: FirebaseService
   ) {}
 
@@ -47,7 +48,7 @@ export class RestaurantResolver {
     return this.restaurantService.delete(id);
   }
 
-  @ResolveField('address', () => Address, { nullable: true })
+  @ResolveField('address', () => AddressRecup, { nullable: true })
   async address(@Parent() restaurant: Restaurant): Promise<Address> {
     return this.restauAddressService.findByRestaurantId(restaurant.restauId);
   }

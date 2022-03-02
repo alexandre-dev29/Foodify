@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AddressService } from './address/address.service';
-import { PrismaService } from '@food-delivery/utility';
+import { GlobalAddressModule } from './global-address/global-address.module';
 
 @Module({
-  controllers: [],
-  providers: [AddressService, PrismaService],
+  providers: [],
   exports: [],
-  imports: [AddressModule],
+  imports: [GlobalAddressModule],
 })
 export class AddressModule {}

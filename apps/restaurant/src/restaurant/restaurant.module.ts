@@ -4,7 +4,7 @@ import { RestaurantResolver } from './restaurant.resolver';
 import { ConfigModule } from '@nestjs/config';
 import { LoginResponse, ResponseAction } from '@food-delivery/shared-types';
 import { FirebaseService, PrismaService } from '@food-delivery/utility';
-import { AddressService } from '@food-delivery/address';
+import { GlobalAddressService } from '@food-delivery/address';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true })],
@@ -13,7 +13,7 @@ import { AddressService } from '@food-delivery/address';
     RestaurantService,
     LoginResponse,
     PrismaService,
-    AddressService,
+    GlobalAddressService,
     ResponseAction,
     FirebaseService,
   ],

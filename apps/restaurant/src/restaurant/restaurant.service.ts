@@ -5,13 +5,16 @@ import {
 } from '@food-delivery/shared-types';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@food-delivery/utility';
-import { AddressService, UpdateAddressInput } from '@food-delivery/address';
+import {
+  GlobalAddressService,
+  UpdateAddressInput,
+} from '@food-delivery/address';
 
 @Injectable()
 export class RestaurantService implements RepositoryData<Restaurant> {
   constructor(
     private prismaService: PrismaService,
-    private restauAddressService: AddressService
+    private restauAddressService: GlobalAddressService
   ) {}
 
   findById(id: string): Promise<Restaurant> {

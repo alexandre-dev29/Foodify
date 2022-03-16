@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateAddressInput } from './dto/update-address.input';
 import { PrismaService } from '@food-delivery/utility';
-import { Address } from './entities/address.entity';
-import { CreateAddressInput } from './dto/create-address.input';
+import {
+  Address,
+  CreateAddressInput,
+  UpdateAddressInput,
+} from '@food-delivery/address';
 
 @Injectable()
-export class AddressService {
+export class GlobalAddressService {
   constructor(private prismaService: PrismaService) {}
 
   updateAdress(

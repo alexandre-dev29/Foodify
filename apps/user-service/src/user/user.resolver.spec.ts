@@ -1,11 +1,11 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AddressService } from '../address/address.service';
-import { PrismaService } from '@food-delivery/shared-types';
 import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 import { UserRoleService } from '../user-role/user-role.service';
+import { PrismaService, UtilityModule } from '@food-delivery/utility';
+import { GlobalAddressService } from '@food-delivery/address';
 
 describe('UserResolver', () => {
   let resolver: UserResolver;
@@ -15,7 +15,7 @@ describe('UserResolver', () => {
       providers: [
         UserResolver,
         UserService,
-        AddressService,
+        GlobalAddressService,
         PrismaService,
         UserRoleService,
       ],
@@ -27,6 +27,7 @@ describe('UserResolver', () => {
           }),
           inject: [ConfigService],
         }),
+        UtilityModule,
       ],
     }).compile();
 

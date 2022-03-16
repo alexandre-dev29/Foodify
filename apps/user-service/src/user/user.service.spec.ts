@@ -1,9 +1,9 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaService } from '@food-delivery/shared-types';
 import { UserService } from './user.service';
 import { UserRoleService } from '../user-role/user-role.service';
+import { PrismaService, UtilityModule } from '@food-delivery/utility';
 
 describe('UserService', () => {
   let service: UserService;
@@ -18,6 +18,7 @@ describe('UserService', () => {
           }),
           inject: [ConfigService],
         }),
+        UtilityModule,
       ],
       providers: [UserService, PrismaService, UserRoleService],
     }).compile();

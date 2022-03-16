@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserRoleResolver } from './user-role.resolver';
 import { UserRoleService } from './user-role.service';
-import { PrismaService } from '@food-delivery/shared-types';
 import { UserService } from '../user/user.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PrismaService, UtilityModule } from '@food-delivery/utility';
 
 describe('UserRoleResolver', () => {
   let resolver: UserRoleResolver;
@@ -19,6 +19,7 @@ describe('UserRoleResolver', () => {
           }),
           inject: [ConfigService],
         }),
+        UtilityModule,
       ],
       providers: [
         UserRoleResolver,

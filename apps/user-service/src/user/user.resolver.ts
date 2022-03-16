@@ -10,13 +10,17 @@ import { UserService } from './user.service';
 import { User } from '@food-delivery/shared-types';
 import { UserRoleService } from '../user-role/user-role.service';
 import { UserRole } from '../user-role/entities/user-role.entity';
-import { Address, AddressService } from '@food-delivery/address';
+import {
+  Address,
+  AddressRecup,
+  GlobalAddressService,
+} from '@food-delivery/address';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(
     private userService: UserService,
-    private addressService: AddressService,
+    private addressService: GlobalAddressService,
     private userRoleService: UserRoleService
   ) {}
 
@@ -33,7 +37,7 @@ export class UserResolver {
     });
   }
 
-  @ResolveField('address', () => Address)
+  @ResolveField('address', () => AddressRecup)
   async getAddress(@Parent() user: User): Promise<Address> {
     return this.addressService.findByUserId(user.userId);
   }

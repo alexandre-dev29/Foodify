@@ -20,9 +20,6 @@ export class User {
   @Field(() => String, { nullable: true })
   completeName: string;
 
-  @Field(() => String, { nullable: true })
-  tokenId: string;
-
   @Field(() => String)
   userRoleId: string;
 

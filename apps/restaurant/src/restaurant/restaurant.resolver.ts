@@ -88,4 +88,12 @@ export class RestaurantResolver {
   generateNewFileName(fileName: string): string {
     return `${Date.now()}.${fileName.substring(fileName.length - 3)}`;
   }
+
+  @Mutation(() => Boolean)
+  async activateRestaurant(
+    @Args('restaurantId', { type: () => String }) restaurantId: string
+  ) {
+    return (await this.restaurantService.activateRestaurant(restaurantId))
+      .isActive;
+  }
 }

@@ -55,14 +55,14 @@ export class RestaurantService implements RepositoryData<Restaurant> {
   async updateAddressRestaurant(
     restaurantId: string,
     { latitude, longitude, address, commune }: UpdateAddressInput
-  ): Promise<Restaurant | any> {
+  ): Promise<Restaurant> {
     const currentRestaurant = await this.prismaService.restaurant.findUnique({
       where: { restauId: restaurantId },
     });
     const foundedOccurrence =
       await this.restauAddressService.findByRestaurantId(restaurantId);
     if (foundedOccurrence) {
-      return this.restauAddressService.updateAdress(
+      await this.restauAddressService.updateAdress(
         foundedOccurrence.addressId,
         {
           address,
@@ -71,6 +71,9 @@ export class RestaurantService implements RepositoryData<Restaurant> {
           latitude,
         }
       );
+      return this.prismaService.restaurant.findUnique({
+        where: { restauId: restaurantId },
+      });
     } else {
       const createdAddress = await this.restauAddressService.save({
         address,

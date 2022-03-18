@@ -20,7 +20,7 @@ describe('UserService', () => {
         }),
         UtilityModule,
       ],
-      providers: [UserService, PrismaService, UserRoleService],
+      providers: [UserService, PrismaService, UserRoleService, ConfigService],
     }).compile();
 
     service = module.get<UserService>(UserService);
@@ -28,5 +28,16 @@ describe('UserService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('should find all users', async function () {
+    const allusers = await service.findAll();
+    expect(allusers.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('should find one user', async function () {
+    const allusers = await service.findAll();
+    const foundedUser = await service.findById(allusers[0].userId);
+    expect(foundedUser).not.toBeNull();
   });
 });

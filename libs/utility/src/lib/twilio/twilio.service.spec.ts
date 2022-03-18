@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TwilioService } from './twilio.service';
-import { UtilityModule } from '@food-delivery/utility';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UtilityModule } from '../utility.module';
 
 describe('TwilioService', () => {
   let service: TwilioService;

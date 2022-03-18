@@ -40,8 +40,8 @@ model Role {
   roleId    String    @id @default(cuid())
   userRole  String
   User      User[]
-  createdAt DateTime?
-  updatedAt DateTime?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
 }
 
 model Address {
